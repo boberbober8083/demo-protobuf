@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package com.example.demo;
+
+option java_outer_classname = "Protos";
+option java_package = "com.example.demo";
+
+message Book {
+  int64 isbn = 1;
+  string title = 2;
+  string author = 3;
+}
+
+message GetBookRequest {
+  int64 isbn = 1;
+}
+
+message GetBookResponse {
+  repeated Book book = 1;
+}
+
+message GetBookViaAuthor {
+  string author = 1;
+}

@@ -1,0 +1,67 @@
+plugins {
+	id 'java'
+	id 'com.google.protobuf' version '0.9.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+	main {
+		proto {
+			srcDir 'src/main/proto'
+		}
+		java {
+			srcDir 'src/main/java'
+		}
+	}
+}
+
+protobuf {
+	// Configure the protoc executable
+	protoc {
+		// Download from repositories
+		artifact = 'com.google.protobuf:protoc:3.24.4'
+	}
+
+	generateProtoTasks.generatedFilesBaseDir = 'generated-sources'
+
+	generateProtoTasks {
+		// all() returns the collection of all protoc tasks
+		all().each { task ->
+			// Here you can configure the task
+		}
+
+		// In addition to all(), you may get the task collection by various
+		// criteria:
+
+		// (Java only) returns tasks for a sourceSet
+		ofSourceSet('main')
+
+	}
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	implementation 'com.google.protobuf:protobuf-java:3.24.4'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(Copy).all { duplicatesStrategy 'exclude' }
+
